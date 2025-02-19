@@ -88,6 +88,25 @@ int main(int argc, char **argv) {
             }
             
             exit(EXIT_SUCCESS);
+        
+        default: /* unknown */
+            f = xfopen(argv[1], "wb");
+            fputc(2, f);
+            fclose(f);
+            
+            for(;;) {
+                f = xfopen(argv[2], "rb");
+                if(fgetc(f) == 0) {
+                    fclose(f);
+                    f = xfopen(argv[1], "wb");
+                    fputc(0, f);
+                    fclose(f);
+                    break;
+                }
+                fclose(f);
+            }
+            
+            break;
         }
     }
 }
